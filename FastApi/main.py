@@ -92,7 +92,7 @@ def predict(data: InputData):
         prediction = model.predict(input_vector).tolist()[0]
         probability = model.predict_proba(input_vector).tolist()[0][prediction]
         print("✅ Predicción:", prediction)
-        print("📈 Probabilidad:", probability)
+        print("📈 Probabilidad:", f"{round(probability * 100)} %")
 
         # guardamos en Supabase si la conexión está activa
         if supabase:
@@ -103,7 +103,7 @@ def predict(data: InputData):
 
         return {
             "prediction": prediction,
-            "probability": round(probability, 2)
+            "probability": f"{round(probability * 100, 2)} %"
         }
 
     except Exception as e:
