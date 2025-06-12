@@ -2,10 +2,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Literal
 import joblib
-import numpy as np
 import os
 from dotenv import load_dotenv
-
+from fastapi.responses import JSONResponse
 
 model_path = os.path.join(os.path.dirname(__file__), "..", "data", "model.pkl")
 
@@ -105,3 +104,23 @@ def predict(data: InputData):
     except Exception as e:
         print("❌ Error:", str(e))
         raise HTTPException(status_code=400, detail=f"Error en predicción: {str(e)}")
+
+# endpoint para obtener las últimas 10 predicciones
+@app.get("/all-predicts")
+def get_all_predictions():
+    if not supabase:
+        raise HTTPException(status_code=503, detail="Supabase no está conectado.")
+    try:
+        response = (
+            supabase
+            .table("predictions")
+            .select("*")
+            .order("created_at", desc=True)
+            .limit(10)
+            .execute()
+        )
+        data = response.data if hasattr(response, "data") else response.get("data", [])
+        return JSONResponse(content=data)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener predicciones: {str(e)}")
