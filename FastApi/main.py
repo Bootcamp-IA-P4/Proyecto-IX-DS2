@@ -98,11 +98,11 @@ def predict(data: InputData):
         if supabase:
             supabase.table("predictions").insert({
                 "input": data_dict,
-                "prediction": prediction
+                "stroke": prediction
             }).execute()
 
         return {
-            "prediction": prediction,
+            "stroke": prediction,
             "probability": f"{round(probability * 100, 2)} %"
         }
 
