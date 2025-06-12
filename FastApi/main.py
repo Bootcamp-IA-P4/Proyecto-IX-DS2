@@ -86,8 +86,9 @@ def preprocess_input(data: dict):
 @app.post("/predict")
 def predict(data: InputData):
     try:
-        print("📥 Datos recibidos:", data.dict())
-        input_vector = preprocess_input(data.dict())
+        data_dict = data.model_dump()
+        print("📥 Datos recibidos:", data_dict)
+        input_vector = preprocess_input(data_dict)
         print("📊 Vector transformado:", input_vector)
         prediction = model.predict(input_vector).tolist()[0]
         print("✅ Predicción:", prediction)
@@ -95,7 +96,7 @@ def predict(data: InputData):
         # guardamos en Supabase si la conexión está activa
         if supabase:
             supabase.table("predictions").insert({
-                "input": data.dict(),
+                "input": data_dict,
                 "prediction": prediction
             }).execute()
 
