@@ -4,3 +4,4 @@
 venv/
 *.csv
 __pycache__/
+data/stroke_prediction_model-Max2-SMOTE.ipynb
