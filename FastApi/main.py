@@ -44,7 +44,7 @@ SMOKING_STATUS_OPTIONS = ["Unknown", "formerly smoked", "never smoked", "smokes"
 # declaramos las variables de input
 class InputData(BaseModel):
     gender: Literal[0, 1]
-    age: float
+    age: int
     hypertension: Literal[0, 1]
     heart_disease: Literal[0, 1]
     ever_married: Literal[0, 1]
