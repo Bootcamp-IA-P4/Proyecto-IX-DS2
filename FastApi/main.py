@@ -41,6 +41,13 @@ app = FastAPI(title="API de Predicción de Stroke")
 WORK_TYPE_OPTIONS = ["Govt_job", "Private", "Self-employed", "children"]
 SMOKING_STATUS_OPTIONS = ["Unknown", "formerly smoked", "never smoked", "smokes"]
 
+
+def calculate_bmi(height: int, weight: int) -> float:
+    """Calcula el BMI a partir de la altura y el peso."""
+    if height <= 0 or weight <= 0:
+        raise ValueError("La altura y el peso deben ser mayores que cero.")
+    return round(weight / ((height / 100) ** 2), 2)
+
 # declaramos las variables de input
 class InputData(BaseModel):
     gender: Literal[0, 1]
@@ -50,7 +57,8 @@ class InputData(BaseModel):
     ever_married: Literal[0, 1]
     Residence_type: Literal[0, 1]
     avg_glucose_level: float
-    bmi: float
+    height: int
+    weight: int
     work_type: Literal["Govt_job", "Private", "Self-employed", "children"]
     smoking_status: Literal["Unknown", "formerly smoked", "never smoked", "smokes"]
 
@@ -87,17 +95,35 @@ def predict(data: InputData):
     try:
         data_dict = data.model_dump()
         print("📥 Datos recibidos:", data_dict)
+
+        # calcular BMI
+        bmi = calculate_bmi(data_dict["height"], data_dict["weight"])
+        print("📏 BMI calculado:", bmi)
+
+        # añadimos bmi al input para preprocesar
+        data_dict["bmi"] = bmi
         input_vector = preprocess_input(data_dict)
         print("📊 Vector transformado:", input_vector)
+
+        # predicción
         prediction = model.predict(input_vector).tolist()[0]
         probability = model.predict_proba(input_vector).tolist()[0][prediction]
         print("✅ Predicción:", prediction)
         print("📈 Probabilidad:", f"{round(probability * 100)} %")
 
-        # guardamos en Supabase si la conexión está activa
+        # guardamos solo lo necesario en Supabase
         if supabase:
             supabase.table("predictions").insert({
-                **data_dict,
+                "gender": data_dict["gender"],
+                "age": data_dict["age"],
+                "hypertension": data_dict["hypertension"],
+                "heart_disease": data_dict["heart_disease"],
+                "ever_married": data_dict["ever_married"],
+                "Residence_type": data_dict["Residence_type"],
+                "avg_glucose_level": data_dict["avg_glucose_level"],
+                "bmi": data_dict["bmi"],
+                "work_type": data_dict["work_type"],
+                "smoking_status": data_dict["smoking_status"],
                 "stroke": prediction
             }).execute()
 
