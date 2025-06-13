@@ -4,3 +4,5 @@
 *.csv
 
 .venv/
+tf_env/
+data/keras_tuner_dir/
