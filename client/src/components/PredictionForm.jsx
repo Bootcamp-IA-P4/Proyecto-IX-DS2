@@ -1,77 +1,112 @@
 import React, { useState } from 'react';
+import PersonIcon from '@mui/icons-material/Person';
+import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
+import WorkIcon from '@mui/icons-material/Work';
+
+// Componente para una sección del formulario
+const FormSection = ({ title, icon, children }) => (
+    <div className="mb-8">
+        <div className="flex items-center gap-3 mb-4">
+            {icon}
+            <h3 className="text-xl font-bold text-gray-700">{title}</h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            {children}
+        </div>
+    </div>
+);
+
+// Componente para un campo del formulario (Input/Select)
+const FormField = ({ label, name, type = "number", options = [], value, onChange, ...rest }) => (
+    <div>
+        <label htmlFor={name} className="block text-sm font-medium text-gray-600 mb-1">{label}</label>
+        {type === 'select' ? (
+            <select
+                name={name}
+                id={name}
+                value={value}
+                onChange={onChange}
+                className="w-full p-2.5 bg-white border border-gray-300 text-gray-900 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition"
+                {...rest}
+            >
+                {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+            </select>
+        ) : (
+            <input
+                type={type}
+                name={name}
+                id={name}
+                value={value}
+                onChange={onChange}
+                className="w-full p-2.5 bg-white border border-gray-300 text-gray-900 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition"
+                {...rest}
+            />
+        )}
+    </div>
+);
+
 
 const PredictionForm = ({ onSubmit, isLoading }) => {
-    // ESTADO INICIAL CORREGIDO: incluye todos los campos del backend
     const [formData, setFormData] = useState({
-        gender: 1, // 1: Masculino, 0: Femenino
-        age: 50,
-        hypertension: 0, // 0: No, 1: Sí
-        heart_disease: 0, // 0: No, 1: Sí
-        ever_married: 1, // 1: Sí, 0: No
-        Residence_type: 1, // 1: Urbano, 0: Rural
-        avg_glucose_level: 100.0,
-        height: 170, // Altura en cm
-        weight: 70,  // Peso en kg
-        work_type: "Private",
-        smoking_status: "never smoked",
+        gender: 1, age: 50, hypertension: 0, heart_disease: 0,
+        ever_married: 1, Residence_type: 1, avg_glucose_level: 100.0,
+        height: 170, weight: 70, work_type: "Private", smoking_status: "never smoked",
     });
-    
-    // El campo `bmi` ya no se usa, el backend no lo espera.
-    // Se podrían añadir `height` y `weight` como inputs numéricos.
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
-        // Importante: Convertir valores de select/números al tipo correcto
-        const finalValue = type === 'number' || e.target.tagName === 'SELECT'
-            ? Number(value)
-            : value;
         
-        // Caso especial para los inputs que no son numéricos por naturaleza
-        if (name === "work_type" || name === "smoking_status") {
-             setFormData(prev => ({ ...prev, [name]: value }));
-        } else {
-             setFormData(prev => ({ ...prev, [name]: Number(value) }));
-        }
+        // --- SOLUCIÓN AL BUG ---
+        // Para inputs numéricos, solo parseamos a número si no está vacío.
+        // Mantenemos el string mientras el usuario escribe para evitar el re-render.
+        const parsedValue = (type === 'number' && value !== '') ? parseFloat(value) : value;
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: parsedValue
+        }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        // Aseguramos que todos los valores numéricos se envíen como números.
+        const numericData = {
+            ...formData,
+            gender: Number(formData.gender),
+            age: Number(formData.age),
+            hypertension: Number(formData.hypertension),
+            heart_disease: Number(formData.heart_disease),
+            ever_married: Number(formData.ever_married),
+            Residence_type: Number(formData.Residence_type),
+        };
+        onSubmit(numericData);
     };
 
-    const FormField = ({ label, name, type = "number", options = [], ...rest }) => (
-        <div className="mb-4">
-            <label htmlFor={name} className="block text-gray-500 text-sm font-bold mb-2">{label}</label>
-            {type === 'select' ? (
-                <select name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-                </select>
-            ) : (
-                <input type={type} name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-            )}
-        </div>
-    );
-    
     return (
-        <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Ingrese Datos del Paciente</h2>
+        <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-                    {/* CAMPOS AÑADIDOS Y CORREGIDOS */}
-                    <FormField label="Edad" name="age" />
-                    <FormField label="Altura (cm)" name="height" />
-                    <FormField label="Peso (kg)" name="weight" />
-                    <FormField label="Nivel Promedio de Glucosa" name="avg_glucose_level" step="0.1" />
-                    <FormField label="Género" name="gender" type="select" options={[{ value: 1, label: 'Masculino' }, { value: 0, label: 'Femenino' }]} />
-                    <FormField label="Hipertensión" name="hypertension" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
-                    <FormField label="Enfermedad Cardíaca" name="heart_disease" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
-                    <FormField label="¿Se ha casado alguna vez?" name="ever_married" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
-                    <FormField label="Tipo de Residencia" name="Residence_type" type="select" options={[{ value: 1, label: 'Urbana' }, { value: 0, label: 'Rural' }]} />
-                    <FormField label="Tipo de Trabajo" name="work_type" type="select" options={["Private", "Self-employed", "Govt_job", "children"].map(o => ({ value: o, label: o }))} />
-                    <FormField label="Estado de Tabaquismo" name="smoking_status" type="select" options={["never smoked", "formerly smoked", "smokes", "Unknown"].map(o => ({ value: o, label: o }))} />
-                </div>
-                <button type="submit" disabled={isLoading} className="btn-primary mt-6 w-full">
-                    {isLoading ? 'Prediciendo...' : 'Obtener Predicción'}
+                <FormSection title="Información Demográfica" icon={<PersonIcon className="text-blue-600" />}>
+                    <FormField label="Edad" name="age" value={formData.age} onChange={handleChange} />
+                    <FormField label="Género" name="gender" type="select" value={formData.gender} onChange={handleChange} options={[{ value: 1, label: 'Masculino' }, { value: 0, label: 'Femenino' }]} />
+                    <FormField label="Altura (cm)" name="height" value={formData.height} onChange={handleChange} />
+                    <FormField label="Peso (kg)" name="weight" value={formData.weight} onChange={handleChange} />
+                </FormSection>
+                
+                <FormSection title="Historial y Factores de Riesgo" icon={<MonitorHeartIcon className="text-red-500" />}>
+                    <FormField label="Hipertensión" name="hypertension" type="select" value={formData.hypertension} onChange={handleChange} options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="Enfermedad Cardíaca" name="heart_disease" type="select" value={formData.heart_disease} onChange={handleChange} options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="Nivel de Glucosa" name="avg_glucose_level" step="0.1" value={formData.avg_glucose_level} onChange={handleChange} />
+                    <FormField label="Estado de Tabaquismo" name="smoking_status" type="select" value={formData.smoking_status} onChange={handleChange} options={["never smoked", "formerly smoked", "smokes", "Unknown"].map(o => ({ value: o, label: o }))} />
+                </FormSection>
+
+                <FormSection title="Estilo de Vida" icon={<WorkIcon className="text-teal-500" />}>
+                    <FormField label="¿Alguna vez se ha casado?" name="ever_married" type="select" value={formData.ever_married} onChange={handleChange} options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="Tipo de Residencia" name="Residence_type" type="select" value={formData.Residence_type} onChange={handleChange} options={[{ value: 1, label: 'Urbana' }, { value: 0, label: 'Rural' }]} />
+                    <FormField label="Tipo de Trabajo" name="work_type" type="select" value={formData.work_type} onChange={handleChange} options={["Private", "Self-employed", "Govt_job", "children"].map(o => ({ value: o, label: o }))} />
+                </FormSection>
+
+                <button type="submit" disabled={isLoading} className="btn-primary w-full text-lg py-3">
+                    {isLoading ? 'Analizando...' : 'Calcular Riesgo'}
                 </button>
             </form>
         </div>

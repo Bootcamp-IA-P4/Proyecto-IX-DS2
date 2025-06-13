@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Home = () => {
     return (
         <div className="container mx-auto px-6 py-12 md:py-20">
-            {/* Sección de Héroe */}
+            {/* Sección de Hero */}
             <div className="text-center">
                 <span className="text-blue-600 font-semibold">Plataforma de IA para la Salud</span>
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mt-2 mb-4 leading-tight">

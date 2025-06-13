@@ -1,23 +1,52 @@
-from fastapi import APIRouter
-from ..services.prediction import predict_stroke
-from ..services.storage import save_prediction, get_recent_predictions, clear_all_predictions
-from ..models.schemas import InputData
+from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from fastapi import HTTPException, status
+from ..services.prediction import predict_stroke
+from ..services.storage import save_prediction
+from ..models.schemas import InputData
 
 router = APIRouter()
 
-@router.post("/predict")
+@router.post("/predict", tags=["Prediction"])
 def predict(data: InputData):
-    result = predict_stroke(data)
-    save_prediction(result["input"], result["prediction"])
-    return result["response"]
+    # 1. Obtiene los datos del formulario en un diccionario.
+    # Este diccionario contiene 'age', 'gender', 'height', 'weight', etc.
+    input_data_dict = data.model_dump()
 
-@router.get("/all-predicts")
+    # 2. Llama al servicio de predicción para obtener el resultado.
+    # Devuelve {"prediction": 0|1, "probability": 0.xx}
+    prediction_results = predict_stroke(data)
+
+    # 3. Construye el diccionario para guardar en la base de datos.
+    #    Empezamos con los datos del formulario (input_data_dict) que ya tienen 'age'.
+    data_to_save = input_data_dict.copy()
+    
+    # 4. Añadimos los resultados con los nombres de columna CORRECTOS.
+    #    La columna en tu DB se llama 'stroke', no 'prediction'.
+    data_to_save['stroke'] = prediction_results['prediction']
+    data_to_save['probability'] = prediction_results['probability']
+
+    # 5. Pasamos este diccionario completo a la función de guardado.
+    try:
+        save_prediction(data_to_save)
+    except Exception as e:
+        print(f"⚠️  Error al intentar guardar desde la capa de rutas: {e}")
+        
+    # 6. Prepara la respuesta para el frontend (sin cambios).
+    response_for_frontend = {
+        "stroke": prediction_results["prediction"],
+        "probability": f"{round(prediction_results['probability'] * 100, 2)} %"
+    }
+    return response_for_frontend
+
+
+# --- OTRAS RUTAS SIN CAMBIOS ---
+from ..services.storage import get_recent_predictions, clear_all_predictions
+
+@router.get("/all-predicts", tags=["History"])
 def get_all_predictions():
     return JSONResponse(content=get_recent_predictions())
 
-@router.delete("/clear-db", status_code=status.HTTP_200_OK)
+@router.delete("/clear-db", status_code=status.HTTP_200_OK, tags=["History"])
 def clear_predictions():
     clear_all_predictions()
     return {"message": "Predicciones eliminadas correctamente."}
