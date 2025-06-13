@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+joblib
+numpy
+python-dotenv
+supabase-py
+pydantic
+dotenv
