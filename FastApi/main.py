@@ -25,7 +25,7 @@ if SUPABASE_URL and SUPABASE_KEY:
         print(f"⚠️ No se pudo conectar a Supabase: {e}")
         supabase = None
 else:
-    print("ℹ️ Supabase no está configurado. Ejecutando solo en local.")
+    print("Supabase no está configurado. Ejecutando solo en local.")
 
 # cargamos el modelo
 try:
@@ -97,7 +97,7 @@ def predict(data: InputData):
         # guardamos en Supabase si la conexión está activa
         if supabase:
             supabase.table("predictions").insert({
-                "input": data_dict,
+                **data_dict,
                 "stroke": prediction
             }).execute()
 
@@ -129,3 +129,4 @@ def get_all_predictions():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener predicciones: {str(e)}")
+
