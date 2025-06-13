@@ -5,6 +5,7 @@ import joblib
 import os
 from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
+import csv
 
 model_path = os.path.join(os.path.dirname(__file__), "..", "data", "model.pkl")
 
@@ -111,21 +112,39 @@ def predict(data: InputData):
         print("✅ Predicción:", prediction)
         print("📈 Probabilidad:", f"{round(probability * 100)} %")
 
-        # guardamos solo lo necesario en Supabase
+        # datos a guardar
+        prediction_record = {
+            "gender": data_dict["gender"],
+            "age": data_dict["age"],
+            "hypertension": data_dict["hypertension"],
+            "heart_disease": data_dict["heart_disease"],
+            "ever_married": data_dict["ever_married"],
+            "Residence_type": data_dict["Residence_type"],
+            "avg_glucose_level": data_dict["avg_glucose_level"],
+            "bmi": data_dict["bmi"],
+            "work_type": data_dict["work_type"],
+            "smoking_status": data_dict["smoking_status"],
+            "stroke": prediction
+        }
+
+        # guardamos en Supabase o en CSV local
         if supabase:
-            supabase.table("predictions").insert({
-                "gender": data_dict["gender"],
-                "age": data_dict["age"],
-                "hypertension": data_dict["hypertension"],
-                "heart_disease": data_dict["heart_disease"],
-                "ever_married": data_dict["ever_married"],
-                "Residence_type": data_dict["Residence_type"],
-                "avg_glucose_level": data_dict["avg_glucose_level"],
-                "bmi": data_dict["bmi"],
-                "work_type": data_dict["work_type"],
-                "smoking_status": data_dict["smoking_status"],
-                "stroke": prediction
-            }).execute()
+            supabase.table("predictions").insert(prediction_record).execute()
+        else:
+            # aseguramos que el directorio 'data' exista
+            os.makedirs("data", exist_ok=True)
+
+            file_path = os.path.join("data", "predictions.csv")
+            file_exists = os.path.isfile(file_path)
+
+            with open(file_path, mode="a", newline="") as file:
+                writer = csv.DictWriter(file, fieldnames=prediction_record.keys())
+
+                if not file_exists:
+                    writer.writeheader()
+
+                writer.writerow(prediction_record)
+                print("💾 Guardado en data/predictions.csv")
 
         return {
             "stroke": prediction,
@@ -135,6 +154,7 @@ def predict(data: InputData):
     except Exception as e:
         print("❌ Error:", str(e))
         raise HTTPException(status_code=400, detail=f"Error en predicción: {str(e)}")
+
 
 # endpoint para obtener las últimas 10 predicciones
 @app.get("/all-predicts")
