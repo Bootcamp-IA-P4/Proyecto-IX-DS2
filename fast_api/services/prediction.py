@@ -4,7 +4,6 @@ from ..core.model_loader import model
 from ..utils.helpers import WORK_TYPE_OPTIONS, SMOKING_STATUS_OPTIONS
 
 def preprocess_input(data: dict):
-    # Calcular BMI (ya que no lo guardamos, debe hacerse aquí)
     height_m = data["height"] / 100
     bmi = data["weight"] / (height_m * height_m) if height_m > 0 else 0
 
@@ -13,7 +12,6 @@ def preprocess_input(data: dict):
         data["ever_married"], data["Residence_type"], data["avg_glucose_level"], bmi
     ]
     
-    # ... (el resto del preprocesamiento no cambia)
     columns = [
         "gender", "age", "hypertension", "heart_disease", "ever_married", "Residence_type", 
         "avg_glucose_level", "bmi", "work_type_Govt_job", "work_type_Private", 
@@ -38,7 +36,6 @@ def predict_stroke(data: InputData):
         probabilities = model.predict_proba(input_vector)[0]
         probability_result = probabilities[prediction_result]
         
-        # --- CAMBIO CLAVE: Devolver un diccionario simple y directo ---
         return {
             "prediction": int(prediction_result),
             "probability": float(probability_result)

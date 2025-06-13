@@ -9,19 +9,15 @@ router = APIRouter()
 @router.post("/predict", tags=["Prediction"])
 def predict(data: InputData):
     # 1. Obtiene los datos del formulario en un diccionario.
-    # Este diccionario contiene 'age', 'gender', 'height', 'weight', etc.
     input_data_dict = data.model_dump()
 
     # 2. Llama al servicio de predicción para obtener el resultado.
-    # Devuelve {"prediction": 0|1, "probability": 0.xx}
     prediction_results = predict_stroke(data)
 
     # 3. Construye el diccionario para guardar en la base de datos.
-    #    Empezamos con los datos del formulario (input_data_dict) que ya tienen 'age'.
     data_to_save = input_data_dict.copy()
     
     # 4. Añadimos los resultados con los nombres de columna CORRECTOS.
-    #    La columna en tu DB se llama 'stroke', no 'prediction'.
     data_to_save['stroke'] = prediction_results['prediction']
     data_to_save['probability'] = prediction_results['probability']
 
@@ -31,15 +27,13 @@ def predict(data: InputData):
     except Exception as e:
         print(f"⚠️  Error al intentar guardar desde la capa de rutas: {e}")
         
-    # 6. Prepara la respuesta para el frontend (sin cambios).
+    # 6. Prepara la respuesta para el frontend
     response_for_frontend = {
         "stroke": prediction_results["prediction"],
         "probability": f"{round(prediction_results['probability'] * 100, 2)} %"
     }
     return response_for_frontend
 
-
-# --- OTRAS RUTAS SIN CAMBIOS ---
 from ..services.storage import get_recent_predictions, clear_all_predictions
 
 @router.get("/all-predicts", tags=["History"])

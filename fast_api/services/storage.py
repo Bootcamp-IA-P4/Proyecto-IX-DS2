@@ -1,7 +1,6 @@
 import os
 import csv
 
-# Configuración de Supabase (sin cambios)
 supabase = None
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
@@ -17,8 +16,6 @@ if SUPABASE_URL and SUPABASE_KEY:
 else:
     print("ℹ️ Variables de Supabase no encontradas.")
 
-
-# --- ESTA ES LA ÚNICA FUNCIÓN QUE NECESITA CAMBIOS ---
 def save_prediction(data_to_save: dict):
     """
     Recibe un diccionario COMPLETO y lo limpia ANTES de guardarlo.
@@ -39,7 +36,6 @@ def save_prediction(data_to_save: dict):
             print(f"❌ Error guardando en Supabase: {e}")
 
 
-# --- EL RESTO DEL ARCHIVO NO SE MODIFICA ---
 def get_recent_predictions(limit: int = 10):
     if supabase:
         try:
