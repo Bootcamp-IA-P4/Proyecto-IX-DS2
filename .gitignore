@@ -6,4 +6,4 @@ venv/
 __pycache__/
 data/stroke_prediction_model-Max2-SMOTE.ipynb
 tf_env/
-data/keras_tuner_dir/
+data/Brain_Data_Organised/
