@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 from typing import Literal
 import joblib
@@ -130,3 +130,17 @@ def get_all_predictions():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener predicciones: {str(e)}")
 
+
+# endpoint para limpiar la base de datos
+@app.delete("/clear-db", status_code=status.HTTP_200_OK)
+def clear_predictions():
+    try:
+        if supabase:
+            response = supabase.table("predictions").delete().neq("id", 0).execute()
+            print("🧹 Base de datos vaciada.")
+            return {"message": "Predicciones eliminadas correctamente."}
+        else:
+            raise HTTPException(status_code=503, detail="Supabase no está configurado.")
+    except Exception as e:
+        print("❌ Error al vaciar la base de datos:", str(e))
+        raise HTTPException(status_code=500, detail=f"Error al vaciar la base de datos: {str(e)}")
