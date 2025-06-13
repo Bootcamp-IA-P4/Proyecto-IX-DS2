@@ -1,58 +1,76 @@
 import React, { useState } from 'react';
 
 const PredictionForm = ({ onSubmit, isLoading }) => {
+    // ESTADO INICIAL CORREGIDO: incluye todos los campos del backend
     const [formData, setFormData] = useState({
-        gender: 0,
+        gender: 1, // 1: Masculino, 0: Femenino
         age: 50,
-        hypertension: 0,
-        heart_disease: 0,
-        ever_married: 1,
-        Residence_type: 1,
+        hypertension: 0, // 0: No, 1: Sí
+        heart_disease: 0, // 0: No, 1: Sí
+        ever_married: 1, // 1: Sí, 0: No
+        Residence_type: 1, // 1: Urbano, 0: Rural
         avg_glucose_level: 100.0,
-        bmi: 25.0,
+        height: 170, // Altura en cm
+        weight: 70,  // Peso en kg
         work_type: "Private",
         smoking_status: "never smoked",
     });
+    
+    // El campo `bmi` ya no se usa, el backend no lo espera.
+    // Se podrían añadir `height` y `weight` como inputs numéricos.
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
-        const finalValue = type === 'number' ? parseFloat(value) : value;
-        setFormData(prev => ({ ...prev, [name]: finalValue }));
+        // Importante: Convertir valores de select/números al tipo correcto
+        const finalValue = type === 'number' || e.target.tagName === 'SELECT'
+            ? Number(value)
+            : value;
+        
+        // Caso especial para los inputs que no son numéricos por naturaleza
+        if (name === "work_type" || name === "smoking_status") {
+             setFormData(prev => ({ ...prev, [name]: value }));
+        } else {
+             setFormData(prev => ({ ...prev, [name]: Number(value) }));
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(formData); // Pasamos los datos del formulario al padre
+        onSubmit(formData);
     };
 
-    // Componente interno para campos del formulario para no repetir código
     const FormField = ({ label, name, type = "number", options = [], ...rest }) => (
         <div className="mb-4">
-            <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
+            <label htmlFor={name} className="block text-gray-500 text-sm font-bold mb-2">{label}</label>
             {type === 'select' ? (
-                <select name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <select name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                 </select>
             ) : (
-                <input type={type} name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <input type={type} name={name} id={name} value={formData[name]} onChange={handleChange} {...rest} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
             )}
         </div>
     );
     
     return (
-        <div className="bg-white p-6 rounded-lg shadow-xl">
-            <h2 className="text-2xl font-semibold mb-4">Ingrese los datos del paciente</h2>
+        <div className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Ingrese Datos del Paciente</h2>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                    {/* CAMPOS AÑADIDOS Y CORREGIDOS */}
                     <FormField label="Edad" name="age" />
+                    <FormField label="Altura (cm)" name="height" />
+                    <FormField label="Peso (kg)" name="weight" />
+                    <FormField label="Nivel Promedio de Glucosa" name="avg_glucose_level" step="0.1" />
                     <FormField label="Género" name="gender" type="select" options={[{ value: 1, label: 'Masculino' }, { value: 0, label: 'Femenino' }]} />
-                    <FormField label="BMI" name="bmi" step="0.1" />
-                    <FormField label="Nivel de Glucosa" name="avg_glucose_level" step="0.1" />
+                    <FormField label="Hipertensión" name="hypertension" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="Enfermedad Cardíaca" name="heart_disease" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="¿Se ha casado alguna vez?" name="ever_married" type="select" options={[{ value: 1, label: 'Sí' }, { value: 0, label: 'No' }]} />
+                    <FormField label="Tipo de Residencia" name="Residence_type" type="select" options={[{ value: 1, label: 'Urbana' }, { value: 0, label: 'Rural' }]} />
                     <FormField label="Tipo de Trabajo" name="work_type" type="select" options={["Private", "Self-employed", "Govt_job", "children"].map(o => ({ value: o, label: o }))} />
                     <FormField label="Estado de Tabaquismo" name="smoking_status" type="select" options={["never smoked", "formerly smoked", "smokes", "Unknown"].map(o => ({ value: o, label: o }))} />
-                    {/* Añade el resto de los selectores binarios aquí si lo deseas (hipertensión, etc.) */}
                 </div>
-                <button type="submit" disabled={isLoading} className="mt-6 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-blue-300">
+                <button type="submit" disabled={isLoading} className="btn-primary mt-6 w-full">
                     {isLoading ? 'Prediciendo...' : 'Obtener Predicción'}
                 </button>
             </form>
