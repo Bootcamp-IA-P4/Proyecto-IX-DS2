@@ -29,3 +29,6 @@ dist-ssr
 *.sw?
 
 __init__.py
+
+
+.pytest_cache/
