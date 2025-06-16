@@ -8,6 +8,7 @@ dotenv_path = os.path.join(script_dir, '.env')
 load_dotenv(dotenv_path=dotenv_path)
 
 from .api.routes import router as api_router
+from .api.imgs import img_router as img_predict_router
 
 # Creamos la aplicación
 app = FastAPI(title="API de Predicción de Stroke")
@@ -30,3 +31,4 @@ def read_root():
     return {"status": "ok", "message": "Bienvenido a la API modular de Predicción de Stroke!"}
 
 app.include_router(api_router)
+app.include_router(img_predict_router)
