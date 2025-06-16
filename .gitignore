@@ -29,3 +29,7 @@ dist-ssr
 *.sw?
 
 __init__.py
+
+data/Brain_Data_Organised/
+tf_env/
+client/
