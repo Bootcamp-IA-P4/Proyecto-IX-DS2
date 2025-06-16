@@ -10,7 +10,7 @@ from torchvision import transforms
 from supabase import create_client
 from dotenv import load_dotenv
 
-from fast_api.models.schemas import SimpleCNN
+from fast_api.core.model_loader import load_cnn_model
 
 load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -22,10 +22,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 img_router = APIRouter()
 
 # Modelo PyTorch
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "../../data/cnn_pytorch.pth")
-model = SimpleCNN(num_classes=2)
-model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device("cpu")))
-model.eval()
+model = load_cnn_model()
 
 IMG_SIZE = 224
 

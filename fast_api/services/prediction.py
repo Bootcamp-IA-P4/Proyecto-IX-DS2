@@ -1,7 +1,9 @@
 import pandas as pd
 from ..models.schemas import InputData
-from ..core.model_loader import model
+from ..core.model_loader import load_joblib_model
 from ..utils.helpers import WORK_TYPE_OPTIONS, SMOKING_STATUS_OPTIONS
+
+model = load_joblib_model()
 
 def preprocess_input(data: dict):
     height_m = data["height"] / 100
