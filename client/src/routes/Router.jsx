@@ -4,6 +4,7 @@ import Layout from "../layout/Layout";
 import Home from "../pages/Home";
 import Prediction from "../pages/Prediction";
 import History from "../pages/History";
+import ImageAnalysis from "../pages/ImageAnalysis";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
             {
                 path: "history",
                 element: <History />
+            },
+            {
+                path: "image-analysis",
+                element:  <ImageAnalysis/>
             }
         ]
     }

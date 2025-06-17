@@ -30,5 +30,7 @@ dist-ssr
 
 __init__.py
 
-
-.pytest_cache/
+data/Brain_Data_Organised/
+tf_env/
+client/
+cnn_pytorch.pth
