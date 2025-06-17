@@ -32,5 +32,4 @@ __init__.py
 
 data/Brain_Data_Organised/
 tf_env/
-client/
 cnn_pytorch.pth

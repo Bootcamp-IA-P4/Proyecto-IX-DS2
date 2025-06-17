@@ -2,10 +2,10 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from pathlib import Path
 
-script_dir = os.path.dirname(__file__)
-dotenv_path = os.path.join(script_dir, '.env')
-load_dotenv(dotenv_path=dotenv_path)
+env_path = Path(__file__).parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 from .api.routes import router as api_router
 from .api.imgs import img_router as img_predict_router
