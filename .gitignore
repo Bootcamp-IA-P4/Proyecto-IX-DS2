@@ -34,3 +34,5 @@ data/Brain_Data_Organised/
 tf_env/
 client/
 cnn_pytorch.pth
+
+.pytest_cache/
