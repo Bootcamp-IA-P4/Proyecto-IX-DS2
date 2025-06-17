@@ -8,16 +8,14 @@ from PIL import Image
 import torch
 from torchvision import transforms
 from supabase import create_client
-from dotenv import load_dotenv
 
 from fast_api.core.model_loader import load_cnn_model
 
-load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
-BUCKET_NAME = "stroke-images"
-
 supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+BUCKET_NAME = "stroke-images"
 
 img_router = APIRouter()
 

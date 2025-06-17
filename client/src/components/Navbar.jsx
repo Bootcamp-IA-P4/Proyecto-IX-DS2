@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 flex justify-between items-center h-16">
         <NavLink to="/" className="flex items-center gap-2 text-xl font-bold text-blue-600">
           <MedicalServicesIcon />
-          <span>SaludPredict</span>
+          <span>AI Stroke Predictor</span>
         </NavLink>
         <div className="flex gap-8 items-center h-full">
           {/* 
