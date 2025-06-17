@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.DEV 
+  ? import.meta.env.VITE_API_BASE_URL
+  : import.meta.env.VITE_API_BASE_URL_DOCKER;
+
+console.log(`API baseURL set to: ${baseURL}`);
+
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
@@ -14,7 +20,6 @@ export const makePrediction = (formData) => {
 export const getHistory = () => {
   return apiClient.get('/all-predicts');
 };
-
 
 export const predictWithImage = async (imageFile) => {
   const formData = new FormData();
