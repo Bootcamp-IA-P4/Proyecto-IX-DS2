@@ -1,0 +1,24 @@
+services:
+  # Servicio del Backend
+  backend:
+    build:
+      context: .
+      dockerfile: ./fast_api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env
+    restart: unless-stopped
+
+  # Servicio del Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
