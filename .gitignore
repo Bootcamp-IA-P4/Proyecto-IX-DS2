@@ -35,3 +35,6 @@ cnn_pytorch.pth
 
 .pytest_cache/
 .vite/
+
+client/.env.development
+client/.env.production
