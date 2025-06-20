@@ -144,8 +144,6 @@ pytest
 
 <img src="./capturas/tests-passed.png" alt="Tests passed" width="400">
 
-‼️TODO: explicar los envs
-
 
 > [!NOTE]
 >
