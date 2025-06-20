@@ -1,0 +1,35 @@
+# Define que esta es una especificación de Blueprint para Render
+services:
+  # --- Servicio 1: El Backend API Ligero ---
+  - type: web # Es un servicio web
+    name: backend-api # El nombre del servicio en Render
+    env: docker # El entorno de construcción es Docker
+    # Ubicación del Dockerfile relativo a la raíz del repo
+    dockerfilePath: ./backend_api/Dockerfile
+    # Configuración de los puertos
+    # Render asigna un puerto internamente y expone el 443 (HTTPS)
+    # Debemos decirle qué puerto está escuchando nuestra app DENTRO del contenedor
+    envVars:
+      - key: PORT # Render usa esta variable por defecto
+        value: 8000 # El puerto que expone Uvicorn en tu Dockerfile
+      # ---- ¡¡AQUÍ VAN TUS SECRETOS!! ----
+      # Reemplaza los valores con los tuyos reales, o créalos desde el Dashboard
+      - key: MODEL_API_URL
+        value: "https://7038-2a0c-5a80-a607-d500-5d7b-2cad-7d-9e65.ngrok-free.app"
+      - key: SUPABASE_URL
+        value: "https://lbodrzrzmgkeezwdybtr.supabase.co"
+      - key: SUPABASE_KEY
+        value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxib2RyenJ6bWdrZWV6d2R5YnRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3MzI3NjIsImV4cCI6MjA2NTMwODc2Mn0.DVYuSD98e7Utp8fKukfOE4zAM57kyd8yGcDmpZnm7TQ"
+      - key: SUPABASE_SERVICE_KEY
+        fromSecret: true
+
+  # --- Servicio 2: El Frontend ---
+  - type: web # También es un servicio web
+    name: frontend # Su nombre en Render
+    env: docker # Se construye con Docker
+    dockerfilePath: ./client/Dockerfile
+    # Configuración de las reescrituras/redirecciones para una SPA (React)
+    rewrites:
+      # Cualquier petición que no sea un archivo se redirige al index.html
+      - source: /*
+        destination: /index.html
