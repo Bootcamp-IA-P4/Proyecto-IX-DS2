@@ -45,6 +45,10 @@ Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo d
 
 Se puede encontrar el entrenamiento final de los 2 modelos en la carpeta model/.
 
+> [!NOET]
+> 
+> Las ramas feature/model, feature/EDA no se han mergeado completamente en la rama main, sino sólo los archivos necesarios y el informe técnico encontrarás en la carpeta model/.
+
 <img src="./capturas/Diagrama_stroke_predict.drawio.png" alt="Diagrama de arquitectura" width="400">
 
 [Puedes ver un video demo haciendo click aquí](https://github.com/alharuty/Proyecto-IX-DS2/releases/download/video-demo/demo-stroke.mov)
@@ -69,17 +73,26 @@ cd Proyecto-IX-DS2
 
 Navega a `https://github.com/alharuty/Proyecto-IX-DS2/releases`, descarga los archivos model.pkl y cnn_pytorch.pth y ubícalos en la carpeta data/.
 
-**Paso 2: Descargar las dependencias necesarias**
+**Paso 2: Crea un entorno virtual y actívalo**
+
+```bash 
+python3 -m venv .venv
+```
+```bash
+source .venv/bin/activate
+```
+
+**Paso 3: Descargar las dependencias necesarias**
 
 ```bash
 pip install -r requirements.txt
 ```
-**Paso 3: Pon en marcha el backend**
+**Paso 4: Pon en marcha el backend**
 
 ```bash
 uvicorn fast_api.main:app --reload
 ```
-**Paso 4: Pon en marcha el frontend**
+**Paso 5: Pon en marcha el frontend**
 
 ```bash
 cd client
@@ -92,7 +105,7 @@ npm install
 npm run dev
 ```
 
-**Paso 5: Abre el navegador y prueba la aplicación en la siguiente ruta**
+**Paso 6: Abre el navegador y prueba la aplicación en la siguiente ruta**
 
 ```bash
 127.0.0.1:5173
@@ -114,9 +127,25 @@ docker-compose up --build
 127.0.0.1:5173
 ```
 
-‼️TODO: tree de las carpetas
+# Probar test unitarios
 
-‼️TODO: tests
+Tenemos 11 test divididos en 5 archivos diferentes que comprueban el buen funcionamiento de toda la aplicación. Para probarlo sitúate en la raíz del directorio, activa el entorno vitual y corre el siguiente comando:
+
+```bash
+pytest
+```
+
+<img src="./capturas/tests-passed.png" alt="Tests passed" width="400">
+
+
+> [!NOTE]
+>
+> Los tests pasan SOLO si está el backend levantado, ya que uno de ellos comprueba que el backend funcione correctamente. Por lo que usa el comando `uvicorn fast_api.main:app --reload` para levantar el backend antes de correr los tests.
+
+
+> [!NOTE]
+> 
+> Además de los tests, hemos integrad logs por todo el backend para tener una trazabilidad de los pasos que se llevan. Estos logs se guardan en logs/logs.log, mostrando la hora, el tipo de nivel y la información sobre esta.
 
 [PowerPoint usado en la presentación del proyecto](https://gamma.app/docs/Uso-de-Tecnologia-para-el-Diagnostico-y-Prediccion-de-Accidentes--b7xpfa4eoug67ql)
 
