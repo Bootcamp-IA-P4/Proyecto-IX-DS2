@@ -38,3 +38,5 @@ cnn_pytorch.pth
 
 client/.env.development
 client/.env.production
+
+model.pkl
