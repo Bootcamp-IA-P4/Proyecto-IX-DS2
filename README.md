@@ -29,13 +29,21 @@ Con esta estrategia pasamos de tener 248 casos positivos a 783 casos de ictus, m
 
 Para ello, hicimos un análisis exploratorio de datos completo que se puede ver paso a paso en la rama [feature/EDA](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/EDA) donde cada integrante del equipo estudió y analizó el dataset, y finalmente pudimos verificar y considerar un análisis de datos final que lo llamamos EDA.ipyb .
 
-Para el encontrar el mejor modelo y las mejores métricas, seguimos el mismo paso en la rama [feature/model](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/model) donde cada integrante estudió y propuso el mejor modelo encontrado. Finalmente elejimos el **modelo RandomForest con optimización de hyperparámetros, SMOTE y GridSearch** llamado model.pkl.
+Para el encontrar el mejor modelo y las mejores métricas, seguimos el mismo paso en la rama [feature/model](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/model) donde cada integrante estudió y propuso el mejor modelo encontrado. Finalmente elejimos el **modelo RandomForest + RandomUnderSampler** llamado model.pkl hecho por Cesar, con un accuracy de 77%.
 
-‼️TODO: Añadir captura de las métricas
+<img src="./capturas/metricas-random-forest.png" alt="Métricas random forest" width="400">
 
-Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo de red neuronal (CNN) con PyTorch** llamado cnn_pytorch.pth, para realizar las predicciones mediante las imágenes.
+Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo de red neuronal (CNN) con PyTorch** llamado cnn_pytorch.pth, para realizar las predicciones mediante las imágenes, con un accuracy del 93% y un overfitting menor que 2%.
 
-‼️TODO: Añadir diagrama de arquitectura
+<img src="./capturas/metricas-cnn.png" alt="Métricas del modelo pytorch con cnn" width="400">
+
+<img src="./capturas/overfitting.png" alt="Overfitting imagenes" width="400">
+
+Se puede encontrar el entrenamiento final de los 2 modelos en la carpeta model/.
+
+La aplicación está realizado con backend FastApi y frontend REact y Vite y además está dockerizado y subido las 2 imágenes de los 2 servicios en Dockerhub.
+
+<img src="./capturas/Diagrama_stroke_predict.drawio.png" alt="Diagrama de arquitectura" width="400">
 
 ‼️TODO: Añadir demo
 
@@ -43,12 +51,15 @@ Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo d
 
 ‼️TODO: Añadir instrucciones para descargar docker
 
-‼️TODO: Link a render si podemos desplegar
+‼️TODO: tree de las carpetas
 
+‼️TODO: Link a la presentación de gamma
+
+‼️TODO: Link a deepwiki
 
 Hemos conseguido terminar este proyecto con la metodología scrum y un reparto de roles:
-- Yo como Scrum Master y desarrolladora Backend con FastApi
-- Omar Lengua como desarrollador Frontend con React
+- Alla como Scrum Master y desarrolladora Backend con FastApi
+- Omar como desarrollador Frontend con React
 - Max como Ingeniero de Datos e Ingeniero de Machine Learning CNN
 - Cesar como Ingeniero de Machine Learning RandomForest
 
