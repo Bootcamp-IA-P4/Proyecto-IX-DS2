@@ -87,12 +87,19 @@ source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-**Paso 4: Pon en marcha el backend**
+
+**Paso 4: Ubica los archivos de las variables de entorno que te hemos proporcionado en sus respectivas carpetas:**
+
+- Proyecto-IX-DS2/.env
+- Proyecto-IX-DS2/client/.env.development
+- Proyecto-IX-DS2/client/.env.production
+
+**Paso 5: Pon en marcha el backend**
 
 ```bash
 uvicorn fast_api.main:app --reload
 ```
-**Paso 5: Pon en marcha el frontend**
+**Paso 6: Pon en marcha el frontend**
 
 ```bash
 cd client
@@ -105,7 +112,7 @@ npm install
 npm run dev
 ```
 
-**Paso 6: Abre el navegador y prueba la aplicación en la siguiente ruta**
+**Paso 7: Abre el navegador y prueba la aplicación en la siguiente ruta**
 
 ```bash
 127.0.0.1:5173
@@ -136,6 +143,8 @@ pytest
 ```
 
 <img src="./capturas/tests-passed.png" alt="Tests passed" width="400">
+
+‼️TODO: explicar los envs
 
 
 > [!NOTE]
