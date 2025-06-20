@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./capturas/logo.png" alt="logo diabetest"/>
+</p>
+
 ## 🚀 PROYECTO DATA SCIENTIST/AI DEVELOPER: Aprendizaje Supervisado
 
 Proyecto educativo hecho por:
@@ -41,21 +45,82 @@ Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo d
 
 Se puede encontrar el entrenamiento final de los 2 modelos en la carpeta model/.
 
-La aplicación está realizado con backend FastApi y frontend REact y Vite y además está dockerizado y subido las 2 imágenes de los 2 servicios en Dockerhub.
-
 <img src="./capturas/Diagrama_stroke_predict.drawio.png" alt="Diagrama de arquitectura" width="400">
 
-‼️TODO: Añadir demo
+[Puedes ver un video demo haciendo click aquí](https://github.com/alharuty/Proyecto-IX-DS2/releases/download/video-demo/demo-stroke.mov)
 
-‼️TODO: Añadir instrucciones para descargar repo
+La aplicación está compuesta por un backend desarrollado con FastAPI y un frontend construido con React utilizando Vite como herramienta de construcción. Ambos servicios están dockerizados y sus respectivas imágenes han sido publicadas en Docker Hub, lo que facilita su despliegue en cualquier entorno compatible con Docker.
 
-‼️TODO: Añadir instrucciones para descargar docker
+# ¿Quieres probar la aplicación? Sigue los siguientes pasos
+
+Descarga y entra en el repositorio:
+
+```bash
+git clone https://github.com/alharuty/Proyecto-IX-DS2.git
+```
+
+```bash
+cd Proyecto-IX-DS2
+```
+
+## Opción 1: Usando el repositorio
+
+**Paso 1: Descarga los archivos necesarios**
+
+Navega a `https://github.com/alharuty/Proyecto-IX-DS2/releases`, descarga los archivos model.pkl y cnn_pytorch.pth y ubícalos en la carpeta data/.
+
+**Paso 2: Descargar las dependencias necesarias**
+
+```bash
+pip install -r requirements.txt
+```
+**Paso 3: Pon en marcha el backend**
+
+```bash
+uvicorn fast_api.main:app --reload
+```
+**Paso 4: Pon en marcha el frontend**
+
+```bash
+cd client
+```
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+**Paso 5: Abre el navegador y prueba la aplicación en la siguiente ruta**
+
+```bash
+127.0.0.1:5173
+```
+
+## Opción 2: Utiliza el Docker
+
+**Paso 1: Asegúrate de tener el Docker Desktop abierto**
+
+**Paso 2: Pon en marcha el compose.yml**
+
+```bash
+docker-compose up --build
+```
+
+**Paso 3: Abre el navegador y prueba la aplicación en la siguiente ruta**
+
+```bash
+127.0.0.1:5173
+```
 
 ‼️TODO: tree de las carpetas
 
-‼️TODO: Link a la presentación de gamma
+‼️TODO: tests
 
-‼️TODO: Link a deepwiki
+[PowerPoint usado en la presentación del proyecto](https://gamma.app/docs/Uso-de-Tecnologia-para-el-Diagnostico-y-Prediccion-de-Accidentes--b7xpfa4eoug67ql)
+
+[Link a Deepwiki del repositorio](https://deepwiki.com/alharuty/Proyecto-IX-DS2)
 
 Hemos conseguido terminar este proyecto con la metodología scrum y un reparto de roles:
 - Alla como Scrum Master y desarrolladora Backend con FastApi
