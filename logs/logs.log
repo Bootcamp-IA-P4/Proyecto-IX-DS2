@@ -1,0 +1,25 @@
+2025-06-20 11:02:19,626 - INFO - Conectado a Supabase desde storage.
+2025-06-20 11:09:25,133 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions "HTTP/2 201 Created"
+2025-06-20 11:09:25,146 - INFO - Datos guardados en Supabase correctamente.
+2025-06-20 11:09:36,231 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions "HTTP/2 201 Created"
+2025-06-20 11:09:36,246 - INFO - Datos guardados en Supabase correctamente.
+2025-06-20 11:10:55,489 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Normal/6105045ca3664fcfb4f7115886b9cc52_ictussss.jpg "HTTP/2 400 Bad Request"
+2025-06-20 11:10:55,490 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:11:03,027 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Normal/66428631f0514301926e29d754d55c5b_ictussss.jpg "HTTP/2 400 Bad Request"
+2025-06-20 11:11:03,028 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:12:06,264 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Stroke/1622003f78f049e0a0f8b469638ec971_stroke.jpg "HTTP/2 400 Bad Request"
+2025-06-20 11:12:06,266 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:13:24,720 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Normal/324c7147fedb425bb56d1f806276e53f_49_5.jpg "HTTP/2 400 Bad Request"
+2025-06-20 11:13:24,722 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:13:50,726 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Normal/9c228db434e0495688ee226bf04ed2e6_49_5.jpg "HTTP/2 400 Bad Request"
+2025-06-20 11:13:50,727 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:14:18,340 - INFO - HTTP Request: POST https://lbodrzrzmgkeezwdybtr.supabase.co//storage/v1/object/stroke-images/Stroke/294a450f140d46939b2bdc1125b5a12b_maxxxx.png "HTTP/2 400 Bad Request"
+2025-06-20 11:14:18,342 - ERROR - Error al guardar resultado de imagen en Supabase: {'statusCode': 403, 'error': Unauthorized, 'message': new row violates row-level security policy}
+2025-06-20 11:15:56,419 - INFO - HTTP Request: GET https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions?select=%2A&order=created_at.desc&limit=10 "HTTP/2 200 OK"
+2025-06-20 11:15:56,426 - INFO - Predicciones obtenidas de Supabase.
+2025-06-20 11:15:56,554 - INFO - HTTP Request: GET https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions?select=%2A&order=created_at.desc&limit=10 "HTTP/2 200 OK"
+2025-06-20 11:15:56,556 - INFO - Predicciones obtenidas de Supabase.
+2025-06-20 11:45:37,659 - INFO - HTTP Request: GET https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions?select=%2A&order=created_at.desc&limit=10 "HTTP/2 200 OK"
+2025-06-20 11:45:37,660 - INFO - Predicciones obtenidas de Supabase.
+2025-06-20 11:45:37,728 - INFO - HTTP Request: GET https://lbodrzrzmgkeezwdybtr.supabase.co//rest/v1/predictions?select=%2A&order=created_at.desc&limit=10 "HTTP/2 200 OK"
+2025-06-20 11:45:37,730 - INFO - Predicciones obtenidas de Supabase.
