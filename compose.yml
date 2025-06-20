@@ -1,18 +1,6 @@
+# Archivo para orquestar los 3 servicios en el entorno de desarrollo local.
 services:
-  # Servicio del Backend
-  backend:
-    build:
-      context: .
-      dockerfile: ./fast_api/Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-    env_file:
-      - ./.env
-    restart: unless-stopped
-
-  # Servicio del Frontend
+  # 1. Frontend con Nginx
   frontend:
     build:
       context: .
@@ -20,5 +8,38 @@ services:
     ports:
       - "5173:80"
     depends_on:
-      - backend
+      - backend_api
     restart: unless-stopped
+
+  # 2. Backend API Gateway (ligero)
+  backend_api:
+    build:
+      context: .
+      dockerfile: ./backend_api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Monta los volúmenes necesarios para el desarrollo
+      - ./backend_api:/app/backend_api
+      - ./common:/app/common
+    env_file:
+      - ./.env
+    depends_on:
+      - backend_model
+    restart: unless-stopped
+  
+  # 3. Backend Modelo (pesado)
+  backend_model:
+    build:
+      context: .
+      dockerfile: ./backend_model/Dockerfile
+    volumes:
+      # Monta los volúmenes necesarios
+      - ./backend_model:/app/backend_model
+      - ./common:/app/common
+      - ./data:/app/data
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ictus-dev-network

@@ -1,0 +1,35 @@
+# /Proyecto-IX-DS2/compose.deploy.yml
+
+# Archivo para desplegar SOLAMENTE frontend y backend_api.
+# El backend_model se ejecutará localmente y se accederá a través de ngrok.
+services:
+  # 1. Frontend con Nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend_api
+    restart: unless-stopped
+    # Nota: No se montan volúmenes en producción para usar el código de la imagen.
+
+  # 2. Backend API Gateway (ligero)
+  backend_api:
+    build:
+      context: .
+      dockerfile: ./backend_api/Dockerfile
+    ports:
+      - "8000:8000"
+    # IMPORTANTE: Aquí NO usamos env_file. En un entorno de despliegue real (Render, Heroku...),
+    # las variables de entorno (SUPABASE_*, MODEL_API_URL) se configuran en el panel
+    # de control del proveedor de hosting. La variable MODEL_API_URL la llenarás
+    # con la URL que te dé ngrok.
+    env_file:
+      - ./.env 
+    restart: unless-stopped
+
+networks:
+  default:
+    name: ictus-deploy-network
