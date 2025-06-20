@@ -1,26 +1,12 @@
-from pydantic import BaseModel
-from typing import Literal
+# /backend_model/core/model_definition.py
 import torch.nn as nn
-import torch.nn.functional as F
-
-class InputData(BaseModel):
-    gender: Literal[0, 1]
-    age: int
-    hypertension: Literal[0, 1]
-    heart_disease: Literal[0, 1]
-    ever_married: Literal[0, 1]
-    Residence_type: Literal[0, 1]
-    avg_glucose_level: float
-    height: int
-    weight: int
-    work_type: Literal["Govt_job", "Private", "Self-employed", "children"]
-    smoking_status: Literal["Unknown", "formerly smoked", "never smoked", "smokes"]
 
 IMG_SIZE = 224
 
 class SimpleCNN(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes=2):
         super(SimpleCNN, self).__init__()
+        # ... (resto de tu definición de la CNN, la copio aquí)
         self.conv_block = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
             nn.ReLU(),
