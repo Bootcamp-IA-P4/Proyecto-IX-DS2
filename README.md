@@ -45,15 +45,24 @@ Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo d
 
 Se puede encontrar el entrenamiento final de los 2 modelos en la carpeta model/.
 
-> [!NOET]
+> [!NOTE]
 > 
 > Las ramas feature/model, feature/EDA no se han mergeado completamente en la rama main, sino sólo los archivos necesarios y el informe técnico encontrarás en la carpeta model/.
+
+## Diagrama de arquitectura
 
 <img src="./capturas/Diagrama_stroke_predict.drawio.png" alt="Diagrama de arquitectura" width="400">
 
 [Puedes ver un video demo haciendo click aquí](https://github.com/alharuty/Proyecto-IX-DS2/releases/download/video-demo/demo-stroke.mov)
 
-La aplicación está compuesta por un backend desarrollado con FastAPI y un frontend construido con React utilizando Vite como herramienta de construcción. Ambos servicios están dockerizados y sus respectivas imágenes han sido publicadas en Docker Hub, lo que facilita su despliegue en cualquier entorno compatible con Docker.
+La aplicación está compuesta por un backend desarrollado con FastAPI y un frontend construido con React utilizando Vite como herramienta de construcción. Ambos servicios están desplegados en Render, dockerizados y sus respectivas imágenes han sido publicadas en Docker Hub, lo que facilita su despliegue en cualquier entorno compatible con Docker.
+
+<img src="./capturas/frontend-render.png" alt="Frontend Render" width="400">
+
+<img src="./capturas/backend-render.png" alt="Backend Render" width="400">
+
+- Imagen Frontend: `docker push allaharuty/ictus-frontend:latest`
+- Imágen Backend: `docker push allaharuty/ictus-backend:latest`
 
 # ¿Quieres probar la aplicación? Sigue los siguientes pasos
 
