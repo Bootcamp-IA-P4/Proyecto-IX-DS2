@@ -8,10 +8,31 @@ Proyecto educativo hecho por:
 
 - [Omar Lengua](https://www.linkedin.com/in/omarlengua/)
 - [Max Beltran](https://www.linkedin.com/in/max-beltran/)
-- [Cesar Mercado](https://www.linkedin.com/in/cesarmercadohernandez/)
+- [César Mercado](https://www.linkedin.com/in/cesarmercadohernandez/)
 - [Alla Haruty](https://www.linkedin.com/in/allaharuty/)
 
-Este proyecto implementa un modelo de Machine Learning supervisado de clasificación que permite predecir la probabilidad de un accidente cerebrovascular (stroke) a partir de un formulario con datos personales o a partir de una imágenes de resonancia magnética del paciente. 
+Este proyecto implementa un modelo de Machine Learning supervisado de clasificación que permite predecir la probabilidad de un accidente cerebrovascular (stroke) a partir de un formulario con datos personales o a partir de una imágenes de resonancia magnética del paciente.
+
+![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
+![Jupyter](https://img.shields.io/badge/-Jupyter-FF3C00?logo=jupyter&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
+![FastAPI](https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white)
+![Render](https://img.shields.io/badge/-Render-46B7C8?logo=render&logoColor=white)
+![Supabase](https://img.shields.io/badge/-Supabase-3ECF8E?logo=supabase&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a?logo=react&logoColor=%2361DAFB) 
+![Vite](https://img.shields.io/badge/vite-%23646CFF?logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/tailwindcss-%2338B2AC?logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330?logo=javascript&logoColor=%23F7DF1E)
+
+![Pandas](https://img.shields.io/badge/-Pandas-150458?logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-F7931E?logo=scikit-learn&logoColor=white)
+![Uvicorn](https://img.shields.io/badge/-Uvicorn-7A2A8B?logo=uvicorn&logoColor=white)
+![pytest](https://img.shields.io/badge/-pytest-0A9EDC?logo=pytest&logoColor=white)
+![Logging](https://img.shields.io/badge/-Logging-4B8BBE?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/-PyTorch-EE4C2C?logo=pytorch&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/-TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
+![Unit Testing](https://img.shields.io/badge/-Unit_Testing-0A0A0A?logo=pytest&logoColor=white)
 
 ### ¿Qué dataset utilizamos?
 
@@ -33,11 +54,11 @@ Con esta estrategia pasamos de tener 248 casos positivos a 783 casos de ictus, m
 
 Para ello, hicimos un análisis exploratorio de datos completo que se puede ver paso a paso en la rama [feature/EDA](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/EDA) donde cada integrante del equipo estudió y analizó el dataset, y finalmente pudimos verificar y considerar un análisis de datos final que lo llamamos EDA.ipyb .
 
-Para el encontrar el mejor modelo y las mejores métricas, seguimos el mismo paso en la rama [feature/model](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/model) donde cada integrante estudió y propuso el mejor modelo encontrado. Finalmente elejimos el **modelo RandomForest + RandomUnderSampler** llamado model.pkl hecho por Cesar, con un accuracy de 77%.
+Para el encontrar el mejor modelo y las mejores métricas, seguimos el mismo paso en la rama [feature/model](https://github.com/alharuty/Proyecto-IX-DS2/tree/feature/model) donde cada integrante estudió y propuso el mejor modelo encontrado. Finalmente elegimos el **modelo RandomForest + RandomUnderSampler** llamado model.pkl con un accuracy de 77%.
 
 <img src="./capturas/metricas-random-forest.png" alt="Métricas random forest" width="400">
 
-Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo de red neuronal (CNN) con PyTorch** llamado cnn_pytorch.pth, para realizar las predicciones mediante las imágenes, con un accuracy del 93% y un overfitting menor que 2%.
+Además, como un paso extra y de nivel avanzado, pudimos entrenar un **modelo de red neuronal (CNN) con PyTorch** llamado cnn_pytorch.pth, para realizar las predicciones mediante las imágenes, con un accuracy del 93% y un overfitting menor que 2%.
 
 <img src="./capturas/metricas-cnn.png" alt="Métricas del modelo pytorch con cnn" width="400">
 
@@ -45,15 +66,24 @@ Además, como un paso extra y de nivel avanzado, Max pudo entrenar un **modelo d
 
 Se puede encontrar el entrenamiento final de los 2 modelos en la carpeta model/.
 
-> [!NOET]
+> [!NOTE]
 > 
 > Las ramas feature/model, feature/EDA no se han mergeado completamente en la rama main, sino sólo los archivos necesarios y el informe técnico encontrarás en la carpeta model/.
+
+## Diagrama de arquitectura
 
 <img src="./capturas/Diagrama_stroke_predict.drawio.png" alt="Diagrama de arquitectura" width="400">
 
 [Puedes ver un video demo haciendo click aquí](https://github.com/alharuty/Proyecto-IX-DS2/releases/download/video-demo/demo-stroke.mov)
 
-La aplicación está compuesta por un backend desarrollado con FastAPI y un frontend construido con React utilizando Vite como herramienta de construcción. Ambos servicios están dockerizados y sus respectivas imágenes han sido publicadas en Docker Hub, lo que facilita su despliegue en cualquier entorno compatible con Docker.
+La aplicación está compuesta por un backend desarrollado con FastAPI y un frontend construido con React utilizando Vite como herramienta de construcción. Ambos servicios están desplegados en Render, dockerizados y sus respectivas imágenes han sido publicadas en Docker Hub, lo que facilita su despliegue en cualquier entorno compatible con Docker.
+
+<img src="./capturas/frontend-render.png" alt="Frontend Render" width="400">
+
+<img src="./capturas/backend-render.png" alt="Backend Render" width="400">
+
+- Imagen Frontend: `docker push allaharuty/ictus-frontend:latest`
+- Imágen Backend: `docker push allaharuty/ictus-backend:latest`
 
 # ¿Quieres probar la aplicación? Sigue los siguientes pasos
 
@@ -162,6 +192,6 @@ Hemos conseguido terminar este proyecto con la metodología scrum y un reparto d
 - Alla como Scrum Master y desarrolladora Backend con FastApi
 - Omar como desarrollador Frontend con React
 - Max como Ingeniero de Datos e Ingeniero de Machine Learning CNN
-- Cesar como Ingeniero de Machine Learning RandomForest
+- César como Ingeniero de Machine Learning RandomForest
 
 Aunque los roles estaban bien definidos, uno de los aspectos más valiosos del proyecto ha sido la colaboración transversal. El análisis de datos ha sido un esfuerzo compartido por todo el equipo, permitiéndonos tener una comprensión profunda del conjunto de datos, identificar variables relevantes, realizar limpieza y preprocesamiento, y definir las estrategias de modelado más adecuadas.
